@@ -2,7 +2,7 @@
 %define version 1.0
 %define release %mkrel 1
 
-Summary: gnome applet that shows the status of the caps-, num- and scroll-lock keys
+Summary: Gnome applet that shows the status of the caps-, num- and scroll-lock keys
 Name: %{name}
 Version: %{version}
 Release: %{release}
@@ -22,7 +22,12 @@ Requires(post): scrollkeeper
 Requires(postun): scrollkeeper
 
 %description
-Lock keys applet is a GNOME-applet, that shows the status of the caps-, num- and scroll-lock keys of your keyboard. This isn't especially usefull for normal keyboards, as they got leds for that. But some keyboards (especially wireless keyboards) don't have. One more feature of the applet is that it saves the status of the lock-keys and restores it, when starting GNOME.
+Lock keys applet is a GNOME-applet, that shows the status of the caps-, 
+num- and scroll-lock keys of your keyboard. This isn't especially useful 
+for normal keyboards, as they got leds for that. But some keyboards 
+(especially wireless keyboards) don't have. One more feature of the applet 
+is that it saves the status of the lock-keys and restores it, when starting 
+Gnome.
 
 %prep
 %setup -q
