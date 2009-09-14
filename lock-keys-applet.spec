@@ -1,6 +1,6 @@
 %define name lock-keys-applet
 %define version 1.0
-%define release %mkrel 2
+%define release %mkrel 3
 
 Summary: Gnome applet that shows the status of the caps-, num- and scroll-lock keys
 Name: %{name}
