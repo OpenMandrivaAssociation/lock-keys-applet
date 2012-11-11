@@ -1,0 +1,30 @@
+diff -uNr lock-keys-applet-1.0.orig/src/lock-keys-applet.c lock-keys-applet-1.0/src/lock-keys-applet.c
+--- lock-keys-applet-1.0.orig/src/lock-keys-applet.c	2003-02-05 11:29:21.000000000 -0500
++++ lock-keys-applet-1.0/src/lock-keys-applet.c	2007-08-03 12:24:37.000000000 -0500
+@@ -61,8 +61,6 @@
+ 	gboolean show[3];
+ 	
+ 	GtkDialog *about, *settings;
+-	
+-	GtkTooltips *tooltips;
+ } LedApplet;
+ 
+ static const char 
+@@ -497,7 +495,7 @@
+ 	off = _("Off");
+ 	buf = g_strdup_printf(_("Caps: %s Num: %s Scroll: %s"), applet->on[CAPSLOCK] ? on : off, 
+ 		applet->on[NUMLOCK] ? on : off,applet->on[SCROLLLOCK] ? on : off);
+-	gtk_tooltips_set_tip(applet->tooltips, GTK_WIDGET(applet->applet), buf, "");
++	gtk_widget_set_tooltip_text (GTK_WIDGET (applet->applet), buf);
+ 	g_free(buf);
+ }
+ 
+@@ -588,8 +586,6 @@
+ 	g_assert(drawable);
+ 	applet->rootwin = gdk_x11_drawable_get_xdisplay(drawable);
+ 	
+-	applet->tooltips = gtk_tooltips_new();
+-	
+ 	applet->vbox = gtk_vbox_new(FALSE, 0);
+ 	applet->hbox = gtk_hbox_new(FALSE, 0);
+ 	

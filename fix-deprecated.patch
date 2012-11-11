@@ -1,0 +1,93 @@
+diff -ur lock-keys-applet-1.0.orig/src/lock-keys-applet.c lock-keys-applet-1.0/src/lock-keys-applet.c
+--- lock-keys-applet-1.0.orig/src/lock-keys-applet.c	2003-02-05 11:29:21.000000000 -0500
++++ lock-keys-applet-1.0/src/lock-keys-applet.c	2008-10-04 13:09:20.000000000 -0500
+@@ -104,17 +104,17 @@
+ 	 */
+ 	if (applet->num_pix->parent)
+ 	{
+-		gtk_widget_ref(applet->num_pix);
++		g_object_ref(G_OBJECT(applet->num_pix));
+ 		gtk_container_remove(GTK_CONTAINER(applet->num_pix->parent), applet->num_pix);
+ 	}
+ 	if (applet->caps_pix->parent)
+ 	{
+-		gtk_widget_ref(applet->caps_pix);
++		g_object_ref(G_OBJECT(applet->caps_pix));
+ 		gtk_container_remove(GTK_CONTAINER(applet->caps_pix->parent), applet->caps_pix);
+ 	}
+ 	if (applet->scroll_pix->parent)
+ 	{
+-		gtk_widget_ref(applet->scroll_pix);
++		g_object_ref(G_OBJECT(applet->scroll_pix));
+ 		gtk_container_remove(GTK_CONTAINER(applet->scroll_pix->parent), applet->scroll_pix);
+ 	}
+ 	
+@@ -221,13 +221,18 @@
+ 		return;
+ 	}
+ 	icon = gdk_pixbuf_new_from_xpm_data(APPLET_ICON);
++
++	applet->about = GTK_DIALOG (gtk_about_dialog_new ());
++	g_object_set (G_OBJECT (applet->about),
++		      "program-name", _("Keyboard Lock Keys") /* 1.0 */,
++		      "copyright", "Copyright 2002 Jörgen Scheibengruber",
++		      "comments", _("An applet that shows the state of your Capslock-, Numlock-, and Scroll-lock keys"),
++		      "authors", (const char **) authors,
++		      "translator-credits", strcmp("TRANSLATORS", translators) ? translators : NULL,
++		      "logo", icon,
++		      NULL);
+ 	
+-	applet->about = GTK_DIALOG(gnome_about_new (_("Keyboard Lock Keys"), VERSION, "Copyright 2002 Jörgen Scheibengruber",
+-				_("An applet that shows the state of your Capslock-, Numlock-, and Scroll-lock keys"),
+-				(const char **) authors, NULL, strcmp("TRANSLATORS", translators) ? translators : NULL, 
+-				icon));
+- 
+-	gdk_pixbuf_unref(icon);
++	g_object_unref(G_OBJECT(icon));
+ 	g_object_add_weak_pointer(G_OBJECT(applet->about), (gpointer*)&applet->about);
+ 	gtk_widget_show(GTK_WIDGET(applet->about));
+ }
+@@ -375,16 +380,16 @@
+ 	gtk_container_add(GTK_CONTAINER(applet->settings->vbox), vbox1); 
+ 	
+ 	g_signal_connect(G_OBJECT(applet->show_cb[CAPSLOCK]), "toggled",
+-					GTK_SIGNAL_FUNC(show_cb_change_cb),
+-                    (gpointer)applet);
++			 show_cb_change_cb,
++                         (gpointer)applet);
+ 
+ 	g_signal_connect(G_OBJECT(applet->show_cb[NUMLOCK]), "toggled",
+-					GTK_SIGNAL_FUNC(show_cb_change_cb),
+-                    (gpointer)applet);
++			 show_cb_change_cb,
++                         (gpointer)applet);
+ 
+ 	g_signal_connect(G_OBJECT(applet->show_cb[SCROLLLOCK]), "toggled",
+-					GTK_SIGNAL_FUNC(show_cb_change_cb),
+-                    (gpointer)applet);
++			 show_cb_change_cb,
++	                 (gpointer)applet);
+ 
+ 	answer = GTK_RESPONSE_HELP;
+ 	while (answer == GTK_RESPONSE_HELP)
+@@ -650,14 +655,14 @@
+ 	gtk_container_add(GTK_CONTAINER(applet_widget), applet->vbox);
+ 	gtk_widget_show_all(GTK_WIDGET(applet_widget));
+ 
+-	g_signal_connect(GTK_OBJECT(applet_widget), "change_size",
+-                           GTK_SIGNAL_FUNC(applet_change_size),
++	g_signal_connect(G_OBJECT(applet_widget), "change_size",
++                           applet_change_size,
+                            (gpointer)applet);
+-	g_signal_connect(GTK_OBJECT(applet_widget), "change_orient",
+-                           GTK_SIGNAL_FUNC(applet_change_orient),
++	g_signal_connect(G_OBJECT(applet_widget), "change_orient",
++                           applet_change_orient,
+                            (gpointer)applet);
+-	g_signal_connect(GTK_OBJECT(applet_widget), "destroy",
+-                           GTK_SIGNAL_FUNC(applet_destroy),
++	g_signal_connect(G_OBJECT(applet_widget), "destroy",
++                           applet_destroy,
+                            (gpointer)applet);
+ 
+ /* Change in 0.3: Don't use the timeout anymore, but instead use
