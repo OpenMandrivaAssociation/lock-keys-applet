@@ -11,7 +11,7 @@ patch0:	new-tooltips-api.patch
 patch1:	fix-deprecated.patch
 License: GPLv2+
 Group: Graphical desktop/GNOME
-Url: http://www.wh-hms.uni-ulm.de/~mfcn/lock-keys-applet/
+Url: https://www.wh-hms.uni-ulm.de/~mfcn/lock-keys-applet/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 BuildRequires: libgnomeui2-devel
